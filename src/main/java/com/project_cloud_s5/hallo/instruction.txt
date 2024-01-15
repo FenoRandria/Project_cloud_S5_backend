@@ -1,0 +1,4 @@
+package controller -> ato creation ny web service rehetra (ex: Proprietaire_controller)
+package model -> ato ny entity ny object rehetra structure table sql (ex: Proprietaire)
+package service -> ato ny fonction rehetra ilay isaky ny model ou entity (ex: Proprietaire_service)
+package dao -> ato ny accès base ny object ou entity (ex: Proprietaire_dao) 

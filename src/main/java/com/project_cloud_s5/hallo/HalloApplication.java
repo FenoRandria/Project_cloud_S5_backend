@@ -8,6 +8,7 @@ public class HalloApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HalloApplication.class, args);
+		System.out.println("feno");
 	}
 
 }
