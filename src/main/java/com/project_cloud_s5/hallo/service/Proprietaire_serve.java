@@ -28,4 +28,18 @@ public class Proprietaire_serve {
             throw e;
         }
     }
+
+    public boolean inscrire(Proprietaire proprietaire, String confirmMdp) throws Exception{
+        try {
+            if (proprietaire != null) {
+                if (proprietaire.getNom().isEmpty() || proprietaire.getNom()=="") throw new Exception("Nom not found");
+                if (proprietaire.getMail().isEmpty() || proprietaire.getMail()=="") throw new Exception("Invalid Mail");
+                if (proprietaire.getMdp().isEmpty() || proprietaire.getMdp()=="" || proprietaire.getMdp().compareTo(confirmMdp)!=0) throw new Exception("Invalid password");
+            }
+            return dao.inscrire(proprietaire);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return true;
+    }
 }

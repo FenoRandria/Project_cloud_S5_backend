@@ -1,10 +1,13 @@
 package com.project_cloud_s5.hallo.dao;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import com.project_cloud_s5.hallo.model.Proprietaire;
@@ -24,21 +27,33 @@ public class Proprietaire_dao {
             throw new Exception("Invalid email");
         }
         String sql = "SELECT * FROM proprietaire WHERE mail = ?";
-
         try {
             Proprietaire proprietaire = jdbcTemplate.queryForObject(sql, new Object[]{mail}, new BeanPropertyRowMapper<>(Proprietaire.class));
 
-            if (proprietaire==null) {
-                throw new Exception("Compte inexist sur mail: "+mail);
-            }
-
-            if (proprietaire != null && mdp.equals(proprietaire.getMdp())) {
-                return proprietaire;
-            } else {
-                throw new Exception("Invalid password");
-            }
+            if (proprietaire==null) throw new Exception("Compte inexist sur mail: "+mail);
+            if (proprietaire != null && mdp.equals(proprietaire.getMdp())) 
+                return proprietaire; 
+            else throw new Exception("Invalid password");
+            
         } catch (EmptyResultDataAccessException e) {
             return null;
+        }
+    }
+
+    public boolean inscrire(Proprietaire proprietaire) throws Exception {
+        if (proprietaire == null) {
+            throw new IllegalArgumentException("Invalid inscription, proprietaire is null");
+        }
+        String sql = "INSERT INTO proprietaire (nom, mail, mdp, dtn) VALUES (?, ?, ?, ?)";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, proprietaire.getNom(), proprietaire.getMail(), proprietaire.getMdp(), proprietaire.getDtn());
+
+            if (rowsAffected < 1) {
+                throw new DataAccessException("Invalid inscription, verify your fields") {};
+            }
+            return true;
+        } catch (DataAccessException e) {
+            throw new Exception("Error during inscription", e);
         }
     }
 }
