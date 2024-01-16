@@ -1,5 +1,4 @@
 package com.project_cloud_s5.hallo;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
