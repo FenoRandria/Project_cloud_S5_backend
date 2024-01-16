@@ -30,7 +30,7 @@ public class Proprietaire_dao {
         try {
             Proprietaire proprietaire = jdbcTemplate.queryForObject(sql, new Object[]{mail}, new BeanPropertyRowMapper<>(Proprietaire.class));
 
-            if (proprietaire==null) throw new Exception("Compte inexist sur mail: "+mail);
+            if (proprietaire==null || mail.compareTo(proprietaire.getMail())!=0) throw new Exception("Compte inexist sur mail: "+mail);
             if (proprietaire != null && mdp.equals(proprietaire.getMdp())) 
                 return proprietaire; 
             else throw new Exception("Invalid password");
@@ -39,7 +39,7 @@ public class Proprietaire_dao {
             return null;
         }
     }
-
+    
     public boolean inscrire(Proprietaire proprietaire) throws Exception {
         if (proprietaire == null) {
             throw new IllegalArgumentException("Invalid inscription, proprietaire is null");
