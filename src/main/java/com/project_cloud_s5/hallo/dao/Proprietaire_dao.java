@@ -18,7 +18,7 @@ public class Proprietaire_dao {
     private JdbcTemplate jdbcTemplate;
 
     public List<Proprietaire> getProprietaires() {
-        String sql = "select * from proprietaire where corbeil != 1";
+        String sql = "select * from proprietaire where corbeille != 1";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Proprietaire.class));
     }
 
