@@ -1,12 +1,8 @@
 package com.project_cloud_s5.hallo.controller.terrain;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.project_cloud_s5.hallo.model.proprietaire.Proprietaire;
 import com.project_cloud_s5.hallo.model.terrain.Terrain;
 import com.project_cloud_s5.hallo.service.Terrain_serve;
-import com.project_cloud_s5.hallo.service.Proprietaire_serve;
-
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
