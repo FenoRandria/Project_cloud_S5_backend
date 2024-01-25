@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
 import com.project_cloud_s5.hallo.dao.Proprietaire_dao;
-import com.project_cloud_s5.hallo.model.Proprietaire;
+import com.project_cloud_s5.hallo.model.proprietaire.Proprietaire;
 
 @Service
 public class Proprietaire_serve {
@@ -38,8 +38,8 @@ public class Proprietaire_serve {
             }
             return dao.inscrire(proprietaire);
         } catch (Exception e) {
+            throw e;
             // TODO: handle exception
         }
-        return true;
     }
 }

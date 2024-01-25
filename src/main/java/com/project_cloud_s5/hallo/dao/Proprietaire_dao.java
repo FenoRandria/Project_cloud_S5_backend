@@ -1,16 +1,14 @@
 package com.project_cloud_s5.hallo.dao;
 
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import com.project_cloud_s5.hallo.model.Proprietaire;
+import com.project_cloud_s5.hallo.model.proprietaire.Proprietaire;
 
 @Repository
 public class Proprietaire_dao {
@@ -36,7 +34,7 @@ public class Proprietaire_dao {
             else throw new Exception("Invalid password");
             
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            throw new Exception("error during login", e);
         }
     }
     
