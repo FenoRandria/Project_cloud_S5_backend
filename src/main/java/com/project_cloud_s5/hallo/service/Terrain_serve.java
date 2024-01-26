@@ -2,7 +2,6 @@ package com.project_cloud_s5.hallo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 
 import com.project_cloud_s5.hallo.dao.Terrain_dao;
@@ -19,25 +18,89 @@ public class Terrain_serve {
     public List<Terrain> getTerrains() {
         return dao.getTerrains();
     }
-    public Terrain getTerrainById(String id) {
-        return dao.getTerrainById(id);
+    public Terrain getTerrainById(String id) throws Exception{
+        try {
+            if (id.equals("")) {
+                throw new IllegalArgumentException("ID ne peut pas être null ou vide");
+            }
+            Terrain result = dao.getTerrainById(id);
+    
+            if (result.equals(null)) {
+                throw new Exception("Aucun terrain trouvé avec l'ID : " + id);
+            }
+            return result;
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la récupération du terrain par ID", e);
+        }
     }
-    public void insertTerrain(int idproprio,int nbparcelle,String desc,String coord,double longueur,double largeur)throws Exception{
-        dao.insertTerrain(idproprio, nbparcelle, desc, coord, longueur, largeur);
+    public List<String> getTerrainsPhotos(String id) throws Exception{
+        try {
+            if (id.equals("")) {
+                throw new IllegalArgumentException("ID ne peut pas être null ou vide");
+            }
+            List<String> result = dao.getTerrainsPhotos(id);
+    
+            if (result.equals(null)) {
+                throw new Exception("Aucun terrain trouvé avec l'ID : " + id);
+            }
+            return result;
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la récupération du terrain par ID", e);
+        }
     }
-    public void deleteterrain(int idterrain)throws Exception{
-        dao.deleteterrain(idterrain);
+
+    public int insertTerrain(String idproprio,int nbparcelle,String desc,String coord,double longueur,double largeur)throws Exception{
+        try {
+            if (idproprio.equals("")) throw new Exception("Error insertion terrain proprietaire inexistant");
+            return dao.insertTerrain(Integer.parseInt(idproprio), nbparcelle, desc, coord, longueur, largeur);
+        } catch (Exception e) {
+            throw new Exception("Error terrain inexistant lors de recuperation de terrain",e);
+        }
     }
-    public void updateTerrainDesc(String newtext, String idterrain)throws Exception{
-        dao.updateTerrainDesc(newtext, idterrain);
+    public int deleteterrain(String idterrain)throws Exception{
+        try {
+            if (idterrain.equals("")) throw new Exception("Error terrain inexistant");
+            return dao.deleteterrain(Integer.parseInt(idterrain));
+        } catch (Exception e) {
+            throw new Exception("Error terrain inexistant lors de suppression de terrain",e);
+        }
     }
-    public void updateTerrainSurface(double longe,double larg, String idterrain)throws Exception{
-        dao.updateTerrainSurface(longe,larg, idterrain);
+    public int updateTerrainDesc(String newtext, String idterrain)throws Exception{
+        
+        try {
+            if (idterrain.equals("")) throw new Exception("Error terrain inexistant");
+            return dao.updateTerrainDesc(newtext, idterrain);
+        } catch (Exception e) {
+            throw new Exception("Error terrain inexistant lors de mise à jour de terrain",e);
+        }
     }
-    public void deletepicture(String idpic, String idterrain)throws Exception{
-        dao.deletepicture(idpic, idterrain);
+    public int updateTerrainSurface(double longe,double larg, String idterrain)throws Exception{
+        try {
+            if (idterrain.equals("")) throw new Exception("Error terrain inexistant");
+            return dao.updateTerrainSurface(longe,larg, idterrain);
+        } catch (Exception e) {
+            throw new Exception("Error terrain inexistant lors de mise à jour de terrain",e);
+        }
+    }
+    public int deletepicture(String idpic, String idterrain)throws Exception{
+        try {
+            if (idterrain.equals("")) throw new Exception("Error terrain inexistant");
+            return dao.deletepicture(idpic, idterrain);
+        } catch (Exception e) {
+            throw new Exception("Error terrain inexistant lors de suppression de picture terrain",e);
+        }
     }  
-    public void insertpicture(String picname, String idterrain)throws Exception{
-        dao.insertpicture(picname, idterrain);
+    public int insertpicture(String photo, String id_terrain)throws Exception{
+        try {
+            if (id_terrain.equals("")) throw new Exception("Error terrain inexistant");
+            int isNumber = Integer.parseInt(id_terrain);
+            return dao.insertpicture(photo, id_terrain);
+        } catch (Exception e) {
+            throw new Exception("Error terrain inexistant lors de l'insertion picture terrain",e);
+        }
     }
 }

@@ -42,7 +42,7 @@ public class Categorie_culture_controller {
             logger.info("Liste des Categorie_cultures récupérée avec succès : {}", list_Categorie_cultures);
             return Gestion_exception.generateResponse("Liste Categorie_cultures", HttpStatus.OK, list_Categorie_cultures);
         } catch (Exception e) {
-            logger.error("Une erreur s'est produite lors de la récupération des propriétaires : {}", e.getMessage());
+            logger.error("Une erreur s'est produite lors de la récupération des categories cultures : {}", e.getMessage());
             return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, "Erreur survenue lors de la récupération des Categorie_cultures");
         }
     }
