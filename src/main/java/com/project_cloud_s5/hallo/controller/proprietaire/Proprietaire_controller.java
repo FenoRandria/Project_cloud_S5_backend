@@ -1,19 +1,18 @@
 package com.project_cloud_s5.hallo.controller.proprietaire;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.project_cloud_s5.hallo.controller.exception.Gestion_exception;
 import com.project_cloud_s5.hallo.model.dto.ProprietaireDTO;
+import com.project_cloud_s5.hallo.model.proprietaire.Messagerie;
 import com.project_cloud_s5.hallo.model.proprietaire.Proprietaire;
+import com.project_cloud_s5.hallo.service.Messagerie_serve;
 import com.project_cloud_s5.hallo.service.Proprietaire_serve;
-
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("api/proprietaire")
 public class Proprietaire_controller {
+    @Autowired
+    Messagerie_serve messagerieService;
     private final Proprietaire_serve service;
     private static final Logger logger = LoggerFactory.getLogger(Proprietaire_controller.class);
     public Proprietaire_controller(Proprietaire_serve servivce)
@@ -71,6 +72,34 @@ public class Proprietaire_controller {
     private int calculateAge(LocalDate birthDate) {
         LocalDate currentDate = LocalDate.now();
         return currentDate.getYear() - birthDate.getYear();
+    }
+    // --------------------------------------------------------------------
+     @PostMapping("messagerie")
+    public ResponseEntity<Object> nouveauMessage(@RequestBody Messagerie messagerie) {
+        try {
+            
+            String idEnvoyeur = messagerie.getIdEnvoyeur();
+            messagerie.setIdEnvoyeur(idEnvoyeur);
+            messagerieService.nouveauMessage(messagerie);
+            return Gestion_exception.generateResponse("Message envoye",HttpStatus.OK ,messagerie);
+        } catch (Exception exception) {
+            System.out.println("Erreur: " + exception.getMessage());
+            exception.printStackTrace();
+            return Gestion_exception.generateResponse("Message invalid",HttpStatus.INTERNAL_SERVER_ERROR ,exception.getMessage());
+        }
+    }
+
+    @PostMapping("discussions")
+    public ResponseEntity<Object> discussions(@RequestBody Messagerie messagerie) {
+        try {
+            String idEnvoyeur = messagerie.getIdEnvoyeur();
+            List<Messagerie> discussions = messagerieService.getDiscussions(idEnvoyeur, messagerie.getIdReceveur());
+            return Gestion_exception.generateResponse("discussions",HttpStatus.OK ,discussions);
+        } catch (Exception exception) {
+            System.out.println("Erreur: " + exception.getMessage());
+            exception.printStackTrace();
+            return Gestion_exception.generateResponse("discussions error",HttpStatus.OK ,exception.getMessage());
+        }
     }
    
 

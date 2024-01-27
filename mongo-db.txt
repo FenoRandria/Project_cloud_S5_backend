@@ -1,0 +1,10 @@
+MONGODB
+
+Mongohost: roundhouse.proxy.rlwy.net
+mongopassword: 6BGBBAfgg45C3d1Fc3-Bd3bbeBc55d6E
+mongoport:38417
+mongouser: mongo
+mongo_initdb_root_password: 6BGBBAfgg45C3d1Fc3-Bd3bbeBc55d6E
+mongo_initdb_root_username: mongo
+mongo_private_url: mongodb://mongo:6BGBBAfgg45C3d1Fc3-Bd3bbeBc55d6E@mongodb.railway.internal:27017
+mongo_url: mongodb://mongo:6BGBBAfgg45C3d1Fc3-Bd3bbeBc55d6E@roundhouse.proxy.rlwy.net:38417

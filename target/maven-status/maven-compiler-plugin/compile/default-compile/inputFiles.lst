@@ -1,4 +1,5 @@
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\parcelle\Parcelle_controller.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\config\CorsConfig.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\HalloApplication.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Plante_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\terrain\Terrain.java
@@ -7,13 +8,16 @@ D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\dto\Categorie_cultureDTO.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\dao\Plante_dao.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\proprietaire\Proprietaire.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\proprietaire\Messagerie.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Proprietaire_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\terrain\Terrain_controller.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\categorie\Categorie_culture_controller.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\dto\TerrainDTO.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\repository\MessagerieRepository.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\dao\Categorie_culture_dao.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\parcelle\Parcelle.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\plante\Plante.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Messagerie_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\categorie\Categorie_culture.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Categorie_culture_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\proprietaire\Proprietaire_controller.java
