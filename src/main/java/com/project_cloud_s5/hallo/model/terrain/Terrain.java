@@ -8,15 +8,23 @@ public class Terrain {
     private String coord_location;
     private double surface;
     private int corbeille;
-
+    
     private Terrain(){}
-
-    private Terrain(int id,int id_proprietaire,String desc,String longitude,String latitude,double surface,int corb){
+    
+    private Terrain(int id,int id_proprietaire,String desc,String coord_location,double surface,int corb){
         setId_terrain(id);
         setId_proprietaire(id_proprietaire);
         setDesc_terrain(desc);
+        setCoord_location(coord_location);
         setSurface(surface);
         setCorbeille(corb);
+    }
+
+    public Terrain(int id_proprietaire, String desc_terrain, String coord_location, double surface) {
+        this.setId_proprietaire(id_proprietaire);
+        this.setDesc_terrain(desc_terrain);
+        this.setCoord_location(coord_location);
+        this.setSurface(surface);
     }
 
     public int getId_terrain() {

@@ -73,6 +73,7 @@ public class Proprietaire_controller {
         LocalDate currentDate = LocalDate.now();
         return currentDate.getYear() - birthDate.getYear();
     }
+    
     // --------------------------------------------------------------------
      @PostMapping("messagerie")
     public ResponseEntity<Object> nouveauMessage(@RequestBody Messagerie messagerie) {
@@ -90,7 +91,8 @@ public class Proprietaire_controller {
     }
 
     @PostMapping("discussions")
-    public ResponseEntity<Object> discussions(@RequestBody Messagerie messagerie) {
+    public ResponseEntity<Object> discussions(@RequestBody Messagerie messagerie) 
+    {
         try {
             String idEnvoyeur = messagerie.getIdEnvoyeur();
             List<Messagerie> discussions = messagerieService.getDiscussions(idEnvoyeur, messagerie.getIdReceveur());

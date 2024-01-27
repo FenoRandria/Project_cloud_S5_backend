@@ -23,41 +23,63 @@ public class Terrain_dao {
     private Parcelle_dao parcelleDao;
 
     public List<Terrain> getTerrains() {
-        String sql = "select * from terrain where corbeille != 1";
+        String sql = "select * from terrain where corbeille = 1";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Terrain.class));
+    }
+
+    public List<Terrain> getTerrainsInvalid() {
+        String sql = "select * from terrain where corbeille = 0";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Terrain.class));
+    }
+    
+    public int validateTerrain(String idterrain)throws Exception{
+
+        String sql = "UPDATE terrain SET corbeille = 1 WHERE id_terrain = ?";
+        try {
+            return jdbcTemplate.update(sql,Integer.parseInt(idterrain));
+        } catch (Exception e) {
+            throw new Exception("erreur terrain inexistant, validation terrain invalid",e);
+        }
     }
 
     public Terrain getTerrainById(String id) throws Exception {
          try {
-            String sql = "select * from terrain where id_terrain = ?";
+            String sql = "select * from terrain where corbeille = 1 and id_terrain = ?";
             List<Terrain> result = jdbcTemplate.query(sql, new Object[]{Integer.parseInt(id)}, new BeanPropertyRowMapper<>(Terrain.class));
             return result.isEmpty() ? null : result.get(0);
-        } catch (Exception e) {
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
             throw new Exception("Erreur lors de la requête de recherche terrain par ID", e);
         }
     }
 
-    public List<String> getTerrainsPhotos(String idterrain)throws Exception {
+
+
+    public List<String> getTerrainsPhotos(String idterrain) throws Exception {
         try {
-            String sql = "select photo from photos_terrain where id_terrain = ?";
-            return jdbcTemplate.query(sql, new Object[]{Integer.parseInt(idterrain)}, new BeanPropertyRowMapper<>(String.class));
+            String sql = "SELECT photo FROM photos_terrain WHERE id_terrain = ?";
+            int idTerrain = Integer.parseInt(idterrain);
+            return jdbcTemplate.query(sql, new Object[]{idTerrain}, (rs, rowNum) -> rs.getString("photo"));
         } catch (Exception e) {
             throw new Exception("Erreur lors de la requête de recherche photo terrain par ID", e);
         }
     }
+    
+    public int insertTerrain(Terrain terrain,int nbparcelle)throws Exception{
 
-    public int insertTerrain(int idproprio,int nbparcelle,String desc,String coord,double longueur,double largeur)throws Exception{
-
-        String sql = "INSERT INTO terrain (id_proprietaire, desc_terrain, coord_location, surface, corbeille) VALUES (?, '?', '?', ?, 0) returning *";
-        double surface = longueur *largeur;
+        String sql = "INSERT INTO terrain (id_proprietaire, desc_terrain, coord_location, surface, corbeille) VALUES (?, ?, ?, ?, 0) RETURNING *";
         try {
-            List<Terrain> result = jdbcTemplate.query(sql, new Object[]{idproprio,desc,coord,surface}, new BeanPropertyRowMapper<>(Terrain.class));
+            List<Terrain> result = jdbcTemplate.query(sql, new Object[]{terrain.getId_proprietaire(),terrain.getDesc_terrain(),terrain.getCoord_location(),terrain.getSurface()}, new BeanPropertyRowMapper<>(Terrain.class));
             Terrain newterrain = result.isEmpty() ? null : result.get(0);
             if(newterrain.equals(null)){
                 throw new Exception("Erreur insertion terrain");
             }
-            for(int i=0;i<nbparcelle;i++){
-                parcelleDao.insertparcelle(newterrain.getId_terrain(), 0,0, 0);
+            if (nbparcelle>0) {
+                for(int i=0;i<nbparcelle;i++){
+                    parcelleDao.insertparcelle(newterrain.getId_terrain(), 0,0, 0);
+                }
             }
             return newterrain.getId_terrain();
         } catch (Exception e) {
@@ -67,7 +89,7 @@ public class Terrain_dao {
     }
 
     public int deleteterrain(int idterrain)throws Exception{
-        String sql = "UPDATE terrain SET corbeille = 1 WHERE id_terrain = ?";
+        String sql = "UPDATE terrain SET corbeille = 2 WHERE corbeille = 1 and id_terrain = ?";
         try {
             return jdbcTemplate.update(sql, idterrain);
         } catch (Exception e) {
@@ -78,7 +100,7 @@ public class Terrain_dao {
 
     public int updateTerrainDesc(String newtext, String idterrain)throws Exception{
 
-        String sql = "UPDATE terrain SET desc_terrain ='?' WHERE id_terrain = ?";
+        String sql = "UPDATE terrain SET desc_terrain = ? WHERE corbeille = 1 and id_terrain = ?";
         try {
             return jdbcTemplate.update(sql, newtext, Integer.parseInt(idterrain));
         } catch (Exception e) {
@@ -87,13 +109,14 @@ public class Terrain_dao {
     }
 
     public int updateTerrainSurface(double longueur, double largeur, String idterrain)throws Exception{
-        if (largeur<0 || longueur <0) {
-            throw new Exception("erreur update terrain surface negative");
+        if (largeur<0 || longueur <0 || largeur>longueur) 
+        {
+            throw new Exception("erreur update terrain surface valeur illegal");
         }
         double surface = longueur*largeur;
-        String sql = "UPDATE terrain SET surface = ? WHERE id_terrain = ?";
+        String sql = "UPDATE terrain SET surface = ? WHERE corbeille = 1 and id_terrain = ?";
         try {
-            return jdbcTemplate.update(sql, surface, idterrain);
+            return jdbcTemplate.update(sql, surface, Integer.parseInt(idterrain));
             
         } catch (Exception e) {
             // TODO: handle exception
@@ -115,7 +138,7 @@ public class Terrain_dao {
     //a modifier selon comment on upload une photo sur le serveur?
     public int insertpicture(String photo, String id_terrain)throws Exception{
 
-        String sql = "insert into photos_terrain (id_terrain, photo) Values (?,'?')";
+        String sql = "insert into photos_terrain (id_terrain, photo) Values (?,?)";
         try {
             return jdbcTemplate.update(sql, Integer.parseInt(id_terrain), photo);
         } catch (Exception e) {

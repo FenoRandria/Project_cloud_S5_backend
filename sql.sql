@@ -11,15 +11,16 @@ create table proprietaire
     corbeille int default 0 
 );
 insert into proprietaire (nom,mail,mdp,dtn) values ('alice','alice@gmail.com','mdp','2002-10-02');
---table referencement de tout les terrain
+--table referencement de tout les terrain corbeille (0 inserer) (1 valider) (2 supprimer)
 create table terrain(
     id_terrain serial primary key,
     id_proprietaire int,
     desc_terrain TEXT,
     coord_location varchar(40),
     surface float,
-    corbeille int default 0
+    corbeille int default 0 
 );
+
 insert into terrain (id_proprietaire,desc_terrain,coord_location,surface) values (1,'description','coordessai',10);
 
 --table referencement des photos des terrains
@@ -100,3 +101,5 @@ create table vente(
     FOREIGN KEY (id_plante)
     REFERENCES plante(id_plante)
 );
+
+create table historique

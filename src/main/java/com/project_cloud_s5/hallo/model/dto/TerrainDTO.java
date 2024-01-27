@@ -7,12 +7,12 @@ public class TerrainDTO {
     private String coord_location;
     private double surface;
     private int corbeille;
+
     private int id_photos_terrain;
     private String photo;
     private double longueur;
     private double largeur;
     private int nombre_parcelle;
-
 
     public TerrainDTO() {
     }
