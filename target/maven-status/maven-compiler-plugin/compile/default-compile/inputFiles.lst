@@ -4,6 +4,7 @@ D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\HalloApplication.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Plante_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\terrain\Terrain.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\dto\ParcelleDTO.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Parcelle_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\dao\Terrain_dao.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\dto\Categorie_cultureDTO.java

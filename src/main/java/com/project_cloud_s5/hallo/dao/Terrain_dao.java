@@ -41,7 +41,6 @@ public class Terrain_dao {
             throw new Exception("erreur terrain inexistant, validation terrain invalid",e);
         }
     }
-
     public Terrain getTerrainById(String id) throws Exception {
          try {
             String sql = "select * from terrain where corbeille = 1 and id_terrain = ?";
@@ -54,8 +53,6 @@ public class Terrain_dao {
             throw new Exception("Erreur lors de la requête de recherche terrain par ID", e);
         }
     }
-
-
 
     public List<String> getTerrainsPhotos(String idterrain) throws Exception {
         try {
@@ -78,7 +75,7 @@ public class Terrain_dao {
             }
             if (nbparcelle>0) {
                 for(int i=0;i<nbparcelle;i++){
-                    parcelleDao.insertparcelle(newterrain.getId_terrain(), 0,0, 0);
+                    parcelleDao.insertParcelle(newterrain.getId_terrain(),0.0,0.0, 0.0);
                 }
             }
             return newterrain.getId_terrain();
@@ -99,7 +96,6 @@ public class Terrain_dao {
     }
 
     public int updateTerrainDesc(String newtext, String idterrain)throws Exception{
-
         String sql = "UPDATE terrain SET desc_terrain = ? WHERE corbeille = 1 and id_terrain = ?";
         try {
             return jdbcTemplate.update(sql, newtext, Integer.parseInt(idterrain));
@@ -117,9 +113,7 @@ public class Terrain_dao {
         String sql = "UPDATE terrain SET surface = ? WHERE corbeille = 1 and id_terrain = ?";
         try {
             return jdbcTemplate.update(sql, surface, Integer.parseInt(idterrain));
-            
         } catch (Exception e) {
-            // TODO: handle exception
             throw new Exception("erreur terrain inexistant, update surface terrain invalid",e);
         }
     }

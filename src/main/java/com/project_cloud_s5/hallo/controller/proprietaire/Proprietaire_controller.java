@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("api/proprietaire")
+@RequestMapping("api/proprietaires")
 public class Proprietaire_controller {
     @Autowired
     Messagerie_serve messagerieService;
@@ -32,7 +32,7 @@ public class Proprietaire_controller {
     {
         this.service = servivce;
     }
-    @GetMapping("/proprietaires")
+    @GetMapping
     public ResponseEntity<Object> get_all_proprietaires() {
         try {
             List<Proprietaire> list_proprietaires = service.getProprietaires();
@@ -50,7 +50,7 @@ public class Proprietaire_controller {
             return Gestion_exception.generateResponse("proprietaire connected: "+proprietaire.getMail(), HttpStatus.OK ,service.seLogin(proprietaire.getMail(), proprietaire.getMdp()));
         } catch (Exception e) {
             // TODO: handle exception
-            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,"error survenue lors de proprietaire selogin");
+            return Gestion_exception.generateResponse("error login", HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
         }
     }
     @PostMapping("/inscrire")
@@ -73,7 +73,7 @@ public class Proprietaire_controller {
         LocalDate currentDate = LocalDate.now();
         return currentDate.getYear() - birthDate.getYear();
     }
-    
+
     // --------------------------------------------------------------------
      @PostMapping("messagerie")
     public ResponseEntity<Object> nouveauMessage(@RequestBody Messagerie messagerie) {

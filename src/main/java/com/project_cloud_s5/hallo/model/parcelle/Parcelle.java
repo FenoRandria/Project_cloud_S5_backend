@@ -9,7 +9,7 @@ public class Parcelle
 
     public Parcelle(){}
 
-    public Parcelle(int id,int idterrain , double rend,double sur)
+    public Parcelle(int id,int idterrain,double sur,double rend)
     {
         setId_parcelle(id);
         setId_terrain(idterrain);
