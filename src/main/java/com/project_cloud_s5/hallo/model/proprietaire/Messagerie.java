@@ -1,4 +1,5 @@
 package com.project_cloud_s5.hallo.model.proprietaire;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

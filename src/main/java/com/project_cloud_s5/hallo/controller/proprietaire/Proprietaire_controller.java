@@ -1,7 +1,9 @@
 package com.project_cloud_s5.hallo.controller.proprietaire;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project_cloud_s5.hallo.controller.exception.Gestion_exception;
+import com.project_cloud_s5.hallo.model.Token.Token;
 import com.project_cloud_s5.hallo.model.dto.ProprietaireDTO;
 import com.project_cloud_s5.hallo.model.proprietaire.Messagerie;
 import com.project_cloud_s5.hallo.model.proprietaire.Proprietaire;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("api/proprietaire")
 public class Proprietaire_controller {
@@ -28,10 +29,11 @@ public class Proprietaire_controller {
     Messagerie_serve messagerieService;
     private final Proprietaire_serve service;
     private static final Logger logger = LoggerFactory.getLogger(Proprietaire_controller.class);
-    public Proprietaire_controller(Proprietaire_serve servivce)
-    {
+
+    public Proprietaire_controller(Proprietaire_serve servivce) {
         this.service = servivce;
     }
+
     @GetMapping("/proprietaires")
     public ResponseEntity<Object> get_all_proprietaires() {
         try {
@@ -40,32 +42,40 @@ public class Proprietaire_controller {
             return Gestion_exception.generateResponse("Liste proprietaires", HttpStatus.OK, list_proprietaires);
         } catch (Exception e) {
             logger.error("Une erreur s'est produite lors de la récupération des propriétaires : {}", e.getMessage());
-            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, "Erreur survenue lors de la récupération des propriétaires");
+            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Erreur survenue lors de la récupération des propriétaires");
         }
     }
+
     @PostMapping("/login")
-    public ResponseEntity<Object> seLogin(@RequestBody ProprietaireDTO proprietaire) throws Exception
-    {
+    public ResponseEntity<Object> seLogin(@RequestBody ProprietaireDTO proprietaire) throws Exception {
         try {
-            return Gestion_exception.generateResponse("proprietaire connected: "+proprietaire.getMail(), HttpStatus.OK ,service.seLogin(proprietaire.getMail(), proprietaire.getMdp()));
+            return Gestion_exception.generateResponse("proprietaire connected: " + proprietaire.getMail(),
+                    HttpStatus.OK, service.seLogin(proprietaire.getMail(), proprietaire.getMdp()));
         } catch (Exception e) {
             // TODO: handle exception
-            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,"error survenue lors de proprietaire selogin");
+            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,
+                    "error survenue lors de proprietaire selogin");
         }
     }
+
     @PostMapping("/inscrire")
-    public ResponseEntity<Object> inscrire(@RequestBody ProprietaireDTO proprietaire) throws Exception
-    {
+    public ResponseEntity<Object> inscrire(@RequestBody ProprietaireDTO proprietaire) throws Exception {
         java.sql.Date date = java.sql.Date.valueOf(proprietaire.getDtn());
-        if (calculateAge(date.toLocalDate()) < 12) 
-            return Gestion_exception.generateResponse("must be at least 12 years old ", HttpStatus.BAD_REQUEST ,"Invalid date of birth");
-        if (proprietaire.getMail().split("@").length < 2) 
-            return Gestion_exception.generateResponse("Mail must be contains @", HttpStatus.BAD_REQUEST ,"Invalid mail");
+        if (calculateAge(date.toLocalDate()) < 12)
+            return Gestion_exception.generateResponse("must be at least 12 years old ", HttpStatus.BAD_REQUEST,
+                    "Invalid date of birth");
+        if (proprietaire.getMail().split("@").length < 2)
+            return Gestion_exception.generateResponse("Mail must be contains @", HttpStatus.BAD_REQUEST,
+                    "Invalid mail");
         try {
-            return Gestion_exception.generateResponse("registre proprietaire", HttpStatus.OK ,service.inscrire(new Proprietaire(proprietaire.getNom(),proprietaire.getMail(),proprietaire.getMdp(),date), proprietaire.getCmdp()));
+            return Gestion_exception.generateResponse("registre proprietaire", HttpStatus.OK, service.inscrire(
+                    new Proprietaire(proprietaire.getNom(), proprietaire.getMail(), proprietaire.getMdp(), date),
+                    proprietaire.getCmdp()));
         } catch (Exception e) {
             // TODO: handle exception
-            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,"error survenue lors de proprietaire s'inscrire");
+            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,
+                    "error survenue lors de proprietaire s'inscrire");
         }
     }
 
@@ -73,37 +83,36 @@ public class Proprietaire_controller {
         LocalDate currentDate = LocalDate.now();
         return currentDate.getYear() - birthDate.getYear();
     }
-    
-    // --------------------------------------------------------------------
-     @PostMapping("messagerie")
-    public ResponseEntity<Object> nouveauMessage(@RequestBody Messagerie messagerie) {
+
+    // --------------------------------------------------------------------////STRING
+    // TOKEN JSON
+    @PostMapping("messagerie")
+    public ResponseEntity<Object> nouveauMessage(@RequestBody Messagerie messagerie, @RequestBody String token) {
         try {
-            
-            String idEnvoyeur = messagerie.getIdEnvoyeur();
+
+            String idEnvoyeur = Integer.toString(new Token().ToToken(token).getUtilisateur());
             messagerie.setIdEnvoyeur(idEnvoyeur);
             messagerieService.nouveauMessage(messagerie);
-            return Gestion_exception.generateResponse("Message envoye",HttpStatus.OK ,messagerie);
+            return Gestion_exception.generateResponse("Message envoye", HttpStatus.OK, messagerie);
         } catch (Exception exception) {
             System.out.println("Erreur: " + exception.getMessage());
             exception.printStackTrace();
-            return Gestion_exception.generateResponse("Message invalid",HttpStatus.INTERNAL_SERVER_ERROR ,exception.getMessage());
+            return Gestion_exception.generateResponse("Message invalid", HttpStatus.INTERNAL_SERVER_ERROR,
+                    exception.getMessage());
         }
     }
 
     @PostMapping("discussions")
-    public ResponseEntity<Object> discussions(@RequestBody Messagerie messagerie) 
-    {
+    public ResponseEntity<Object> discussions(@RequestBody Messagerie messagerie, @RequestBody String token) {
         try {
-            String idEnvoyeur = messagerie.getIdEnvoyeur();
+            String idEnvoyeur = Integer.toString(new Token().ToToken(token).getUtilisateur());
             List<Messagerie> discussions = messagerieService.getDiscussions(idEnvoyeur, messagerie.getIdReceveur());
-            return Gestion_exception.generateResponse("discussions",HttpStatus.OK ,discussions);
+            return Gestion_exception.generateResponse("discussions", HttpStatus.OK, discussions);
         } catch (Exception exception) {
             System.out.println("Erreur: " + exception.getMessage());
             exception.printStackTrace();
-            return Gestion_exception.generateResponse("discussions error",HttpStatus.OK ,exception.getMessage());
+            return Gestion_exception.generateResponse("discussions error", HttpStatus.OK, exception.getMessage());
         }
     }
-   
 
-    
 }
