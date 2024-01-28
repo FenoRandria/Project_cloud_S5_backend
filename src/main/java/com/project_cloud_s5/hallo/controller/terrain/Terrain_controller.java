@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("api/terrains")
-public class Terrain_controller {
-
+public class Terrain_controller 
+{
     private static final Logger logger = LoggerFactory.getLogger(Terrain_controller.class);
     private final Terrain_serve service;
     public Terrain_controller(Terrain_serve servivce)

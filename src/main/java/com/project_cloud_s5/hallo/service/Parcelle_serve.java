@@ -10,33 +10,57 @@ import com.project_cloud_s5.hallo.model.parcelle.Parcelle;
 
 @Service
 public class Parcelle_serve {
-    private final Parcelle_dao dao;
-    @Autowired 
-    public Parcelle_serve(Parcelle_dao dao)
-    {
-        this.dao = dao;
-    }   
-    public List<Parcelle> getParcelles() {
-        return dao.getParcelles();
-    }
-    public List<Parcelle> getParcellesByTerrain(String id) {
-        return dao.getByTerrain(id);
-    }
-    public Parcelle getParcelleById(String id) {
-        return dao.getParcelleByid(id);
-    }
-    public void insertParcelle(int idterrain,double longueur,double largeur,double rendement) throws Exception{
-        dao.insertparcelle(idterrain,longueur,largeur, rendement);
-        return;
-    }
-    public void updateSurface(int idparcelle,double longueur,double largeur)throws Exception{
-        dao.updateSurface(idparcelle, longueur, largeur);
-    }
-    public void updateRendement(int idparcelle,double rendement)throws Exception{
-        dao.updateRendement(idparcelle, rendement);
-    }
-    public void deleteparcelle(int idparcelle)throws Exception{
-        dao.deleteparcelle(idparcelle);
+
+    private final Parcelle_dao parcelleDao;
+
+    @Autowired
+    public Parcelle_serve(Parcelle_dao parcelleDao) {
+        this.parcelleDao = parcelleDao;
     }
 
+    public List<Parcelle> getParcelles() {
+        return parcelleDao.getParcelles();
+    }
+
+    public List<Parcelle> getParcellesByTerrain(String id) {
+        return parcelleDao.getByTerrain(id);
+    }
+
+    public Parcelle getParcelleById(String id) {
+        return parcelleDao.getParcelleById(id);
+    }
+
+    public int insertParcelle(int idTerrain, double longueur, double largeur, double rendement) throws Exception {
+        try {
+            return parcelleDao.insertParcelle(idTerrain, longueur, largeur, rendement);
+        } catch (Exception e) {
+            throw new Exception("Erreur lors de l'insertion de la parcelle", e);
+        }
+    }
+
+    public int updateSurface(int idParcelle, double longueur, double largeur) throws Exception {
+        try {
+            if (longueur<largeur) throw new Exception("error produite update surface parcelle : longueur inferieur largeur");
+            return parcelleDao.updateSurface(idParcelle, longueur, largeur);
+        } catch (Exception e) 
+        {
+            throw new Exception("Erreur lors de la mise à jour de la surface de la parcelle", e);
+        }
+    }
+
+    public int updateRendement(int idParcelle, double rendement) throws Exception {
+        try {
+            return parcelleDao.updateRendement(idParcelle, rendement);
+        } catch (Exception e) {
+            throw new Exception("Erreur lors de la mise à jour du rendement de la parcelle", e);
+        }
+    }
+
+    public int deleteParcelle(int idParcelle) throws Exception {
+        try {
+            return parcelleDao.deleteParcelle(idParcelle);
+        } catch (Exception e) {
+            throw new Exception("Erreur lors de la suppression de la parcelle", e);
+        }
+    }
 }

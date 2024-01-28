@@ -7,24 +7,24 @@ public class Proprietaire {
     private String mail;
     private String mdp;
     private Date dtn;
-    private int corbeil;
+    private int corbeille;
 
 
-    public Proprietaire(int id, String nom, String mail, String mdp, Date dtn, int corbeil) {
-        setId(id);
-        setNom(nom);
-        setMail(mail);
-        setMdp(mdp);
-        setDtn(dtn);
-        setCorbeil(corbeil);
-    }
     public Proprietaire(String nom, String mail, String mdp, Date dtn) {
         setNom(nom);
         setMail(mail);
         setMdp(mdp);
         setDtn(dtn);
     }
-
+    
+    public Proprietaire(int id, String nom, String mail, String mdp, Date dtn, int corbeille) {
+        setId(id);
+        setNom(nom);
+        setMail(mail);
+        setMdp(mdp);
+        setDtn(dtn);
+        setCorbeille(corbeille);
+    }
     public Proprietaire() {}
 
     public int getId() {
@@ -70,11 +70,13 @@ public class Proprietaire {
         this.dtn = dtn;
     }
 
-    public int getCorbeil() {
-        return corbeil;
+    public int getCorbeille() {
+        return corbeille;
     }
 
-    public void setCorbeil(int corbeil) {
-        this.corbeil = corbeil;
+    public void setCorbeille(int corbeille) {
+        this.corbeille = corbeille;
     }
+
+    
 }
