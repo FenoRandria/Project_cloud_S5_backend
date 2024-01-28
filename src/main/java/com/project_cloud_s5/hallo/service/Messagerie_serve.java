@@ -1,13 +1,14 @@
 package com.project_cloud_s5.hallo.service;
-
 import org.springframework.stereotype.*;
-
-
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
@@ -22,10 +23,9 @@ public class Messagerie_serve {
 
     public void nouveauMessage(Messagerie message) throws Exception {
         try {
-            
+            message.setDateHeureEnvoie(LocalDateTime.now());
             messagingRepository.save(message);
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
             throw e;
         }
@@ -46,5 +46,16 @@ public class Messagerie_serve {
         Update update = new Update().set("status", status);
         mongoTemplate.updateFirst(query, update, Messagerie.class);
         System.out.println("Set status teto");
+    }
+
+    public List<Messagerie> getLastMessagesForReceiver(String receiverId) {
+        org.springframework.data.mongodb.core.aggregation.Aggregation aggregation = Aggregation.newAggregation(
+            Aggregation.match(Criteria.where("idReceveur").is(receiverId)),
+            Aggregation.sort(Sort.Direction.DESC, "dateHeureEnvoie"),
+            Aggregation.group("idEnvoyeur", "idReceveur")
+                    .first("$$ROOT").as("lastMessage"),
+            Aggregation.replaceRoot().withValueOf("$lastMessage")  
+        );
+        return mongoTemplate.aggregate(aggregation, "discussions", Messagerie.class).getMappedResults();
     }
 }

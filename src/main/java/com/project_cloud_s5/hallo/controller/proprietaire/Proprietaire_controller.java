@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project_cloud_s5.hallo.controller.exception.Gestion_exception;
 import com.project_cloud_s5.hallo.model.dto.ProprietaireDTO;
 import com.project_cloud_s5.hallo.model.proprietaire.Messagerie;
+import com.project_cloud_s5.hallo.model.proprietaire.MessagerieProprietaire;
 import com.project_cloud_s5.hallo.model.proprietaire.Proprietaire;
 import com.project_cloud_s5.hallo.service.Messagerie_serve;
 import com.project_cloud_s5.hallo.service.Proprietaire_serve;
@@ -15,13 +16,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/proprietaires")
 public class Proprietaire_controller {
     @Autowired
@@ -96,13 +100,30 @@ public class Proprietaire_controller {
         try {
             String idEnvoyeur = messagerie.getIdEnvoyeur();
             List<Messagerie> discussions = messagerieService.getDiscussions(idEnvoyeur, messagerie.getIdReceveur());
-            return Gestion_exception.generateResponse("discussions",HttpStatus.OK ,discussions);
+            List<Proprietaire> proprietaires = service.getProprietaires();
+            List<MessagerieProprietaire> list_discussions = new MessagerieProprietaire().joinMessagerieProprietaire(discussions, proprietaires);
+            return Gestion_exception.generateResponse("discussions",HttpStatus.OK ,list_discussions);
         } catch (Exception exception) {
             System.out.println("Erreur: " + exception.getMessage());
             exception.printStackTrace();
             return Gestion_exception.generateResponse("discussions error",HttpStatus.OK ,exception.getMessage());
         }
     }
+
+    @PostMapping("discussions/last/{id_receiver}")
+    public ResponseEntity<Object> getLastMessagesForReceiver(@PathVariable("id_receiver") String id_receiver) {
+        try {
+            List<Messagerie> discussions = messagerieService.getLastMessagesForReceiver(id_receiver);
+            List<Proprietaire> proprietaires = service.getProprietaires();
+            List<MessagerieProprietaire> list_discussions = new MessagerieProprietaire().joinMessagerieProprietaire(discussions, proprietaires);
+            return Gestion_exception.generateResponse("discussions",HttpStatus.OK ,list_discussions);
+        } catch (Exception exception) {
+            System.out.println("Erreur: " + exception.getMessage());
+            exception.printStackTrace();
+            return Gestion_exception.generateResponse("last discussions error",HttpStatus.OK ,exception.getMessage());
+        }
+    }
+    
    
 
     
