@@ -138,5 +138,4 @@ public class Proprietaire_controller {
             return Gestion_exception.generateResponse("last discussions error", HttpStatus.OK, exception.getMessage());
         }
     }
-
 }

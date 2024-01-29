@@ -80,6 +80,5 @@ public class Categorie_culture_controller {
             return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,"error survenue lors de suppression categorie");
         }
     }
-
     
 }
