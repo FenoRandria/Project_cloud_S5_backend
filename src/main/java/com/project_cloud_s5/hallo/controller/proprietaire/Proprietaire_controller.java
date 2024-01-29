@@ -39,7 +39,7 @@ public class Proprietaire_controller {
         this.service = servivce;
     }
 
-    @GetMapping("/proprietaires")
+    @GetMapping
     public ResponseEntity<Object> get_all_proprietaires() {
         try {
             List<Proprietaire> list_proprietaires = service.getProprietaires();
