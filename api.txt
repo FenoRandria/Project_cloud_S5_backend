@@ -1,0 +1,156 @@
+To create a Postman collection for the given APIs, you can follow these steps:
+
+1. Open Postman and click on the "New" button to create a new collection.
+2. Give your collection a name, for example, "Project Cloud S5 Backend".
+3. Click on the "Create" button to create the collection.
+4. Inside the collection, click on the "Add request" button to create a new request.
+
+Now, let's create requests for each of the provided API endpoints with comments:
+
+1. **Get All Proprietaires:**
+   - **Request Type:** GET
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/proprietaires`
+   - **Comments:** Retrieve the list of all property owners.
+
+2. **Login:**
+   - **Request Type:** POST
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/proprietaires/login`
+   - **Comments:** Log in a property owner.
+
+3. **Inscrire (Register):**
+   - **Request Type:** POST
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/proprietaires/inscrire`
+   - **Comments:** Register a new property owner.
+
+4. **Nouveau Message:**
+   - **Request Type:** POST
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/messagerie`
+   - **Comments:** Send a new message.
+   - **Headers:** Add `Authorization` header with a valid token.
+
+5. **Auth:**
+   - **Request Type:** POST
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/auth`
+   - **Comments:** Validate the provided token.
+   - **Headers:** Add `Authorization` header with a valid token.
+
+6. **Discussions:**
+   - **Request Type:** POST
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/discussions`
+   - **Comments:** Retrieve discussions.
+   - **Headers:** Add `Authorization` header with a valid token.
+
+7. **Get Last Messages for Receiver:**
+   - **Request Type:** POST
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/discussions/last/{id_receiver}`
+   - **Comments:** Retrieve last discussions with a specific receiver.
+   - **Headers:** Add `Authorization` header with a valid token.
+
+8. **Get All Categories:**
+   - **Request Type:** GET
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/categories`
+   - **Comments:** Retrieve all categories.
+
+9. **Get Categorie by ID:**
+   - **Request Type:** GET
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/categories/{id}`
+   - **Comments:** Retrieve a category by ID.
+
+10. **Insert Categorie:**
+   - **Request Type:** POST
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/categories`
+   - **Comments:** Insert a new category.
+
+11. **Delete Categorie:**
+   - **Request Type:** DELETE
+   - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/categories/{id}`
+   - **Comments:** Delete a category by ID.
+
+12. **Get All Parcelles:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/parcelles`
+    - **Comments:** Retrieve all parcels.
+
+13. **Insert Parcelle:**
+    - **Request Type:** POST
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/parcelles`
+    - **Comments:** Insert a new parcel.
+
+14. **Get Parcelle by ID:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/parcelles/{id}`
+    - **Comments:** Retrieve a parcel by ID.
+
+15. **Update Surface of Parcelle:**
+    - **Request Type:** PUT
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/parcelles/surface`
+    - **Comments:** Update the surface of a parcel.
+
+16. **Update Rendement of Parcelle:**
+    - **Request Type:** PUT
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/parcelles/rendement`
+    - **Comments:** Update the rendement of a parcel.
+
+17. **Delete Parcelle:**
+    - **Request Type:** DELETE
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/parcelles/{id}`
+    - **Comments:** Delete a parcel by ID.
+
+18. **Get All Plantes:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/plantes`
+    - **Comments:** Retrieve all plants.
+
+19. **Get Plantes by Category:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/plantes/categories/{id_categorie}`
+    - **Comments:** Retrieve plants by category.
+
+20. **Get Game Plantes:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/plantes/games`
+    - **Comments:** Retrieve plants for games.
+
+21. **Get Plante by ID:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up
+
+.railway.app/api/plantes/{id}`
+    - **Comments:** Retrieve a plant by ID.
+
+22. **Insert Plante:**
+    - **Request Type:** POST
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/plantes`
+    - **Comments:** Insert a new plant.
+
+23. **Update Plante:**
+    - **Request Type:** PUT
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/plantes`
+    - **Comments:** Update plant details.
+
+24. **Delete Plante:**
+    - **Request Type:** DELETE
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/plantes/delete`
+    - **Comments:** Delete a plant by ID.
+
+25. **Get Plante Utiliser State:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/statistiques/plante-utiliser`
+    - **Comments:** Retrieve plant utilization state.
+
+26. **Get Top Plante Utiliser State:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/statistiques/plante-utiliser/{limit}`
+    - **Comments:** Retrieve top plant utilization state.
+
+27. **Get Benefice State:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/statistiques/benefice/{mois}&&{anne}`
+    - **Comments:** Retrieve benefice state for a specific month and year.
+
+28. **Get Global Statistique:**
+    - **Request Type:** GET
+    - **Endpoint:** `https://projectclouds5backend-production.up.railway.app/api/statistiques/globale`
+    - **Comments:** Retrieve global statistics.
+
+Remember to replace placeholders like `{id}`, `{id_categorie}`, `{id_receiver}`, `{limit}`, `{mois}`, `{anne}` with actual values when making requests. Also, make sure to include appropriate headers such as `Authorization` when required.
