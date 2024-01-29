@@ -16,10 +16,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry
-                        .addMapping("/**")
-                        .allowedMethods(CorsConfiguration.ALL)
-                        .allowedHeaders(CorsConfiguration.ALL)
-                        .allowedOriginPatterns(CorsConfiguration.ALL);
+                .addMapping("/**")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders(CorsConfiguration.ALL)
+                .allowedOriginPatterns(CorsConfiguration.ALL);
             }
         };
     }

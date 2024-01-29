@@ -10,7 +10,8 @@ import com.project_cloud_s5.hallo.model.plante.Plante;
 import com.project_cloud_s5.hallo.model.plante.PlanteWithCategorie;
 
 @Service
-public class Plante_serve {
+public class Plante_serve 
+{
     private final Plante_dao dao;
     @Autowired 
     public Plante_serve(Plante_dao dao)
