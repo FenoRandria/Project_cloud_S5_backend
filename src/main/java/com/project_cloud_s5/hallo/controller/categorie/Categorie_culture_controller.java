@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("api/categorie")
+@RequestMapping("api/categories")
 public class Categorie_culture_controller {
 
     private final Categorie_culture_serve service;
@@ -35,7 +35,7 @@ public class Categorie_culture_controller {
         this.service = servivce;
     }
 
-    @GetMapping("/cultures")
+    @GetMapping
     public ResponseEntity<Object> getCategorie_cultures() {
         try {
             List<Categorie_culture> list_Categorie_cultures = service.getCategorie_cultures();
@@ -46,7 +46,7 @@ public class Categorie_culture_controller {
             return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, "Erreur survenue lors de la récupération des Categorie_cultures");
         }
     }
-    @GetMapping("/culture/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getCategorie_culture_by_id(@PathVariable("id") String id) throws Exception {
         try {
             int categoryId = Integer.parseInt(id);
@@ -59,8 +59,7 @@ public class Categorie_culture_controller {
         }
     }
 
-
-    @PostMapping("/insert")
+    @PostMapping
     public ResponseEntity<Object> insertCategorie_culture(@RequestBody Categorie_cultureDTO categorie) throws Exception
     {
         try {
@@ -71,7 +70,7 @@ public class Categorie_culture_controller {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCategorieCulture(@PathVariable("id") String id )throws Exception
     {
         try {
@@ -80,7 +79,6 @@ public class Categorie_culture_controller {
             // TODO: handle exception
             return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,"error survenue lors de suppression categorie");
         }
-        
     }
 
     

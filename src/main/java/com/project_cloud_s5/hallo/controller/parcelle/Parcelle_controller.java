@@ -80,8 +80,8 @@ public class Parcelle_controller {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Object> deleteParcelle(@RequestParam int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteParcelle(@PathVariable("id") int id) {
         try {
             service.deleteParcelle(id);
             return Gestion_exception.generateResponse("Parcelle supprimée avec succès", HttpStatus.OK, null);

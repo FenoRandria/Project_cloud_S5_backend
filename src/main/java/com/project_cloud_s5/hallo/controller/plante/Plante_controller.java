@@ -3,21 +3,28 @@ package com.project_cloud_s5.hallo.controller.plante;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project_cloud_s5.hallo.controller.exception.Gestion_exception;
+import com.project_cloud_s5.hallo.model.parcelle.Parcelle;
 import com.project_cloud_s5.hallo.model.plante.Plante;
+import com.project_cloud_s5.hallo.model.plante.PlanteWithCategorie;
 import com.project_cloud_s5.hallo.service.Plante_serve;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("api/Plante")
+@RequestMapping("api/plantes")
 public class Plante_controller {
     private final Plante_serve service;
     public Plante_controller(Plante_serve servivce)
@@ -25,63 +32,78 @@ public class Plante_controller {
         this.service = servivce;
     }
 
-    @GetMapping("/get")
-    public List<Plante> get_all_Plantes() {
-        List<Plante> list_Plantes = null;
+    @GetMapping
+    public ResponseEntity<Object> get_all_Plantes() {
         try {
-            list_Plantes = service.getPlantes();
-
-            // return ResponseHandler.generateResponse("Liste Plante",HttpStatus.OK,list_Plantes)
+            List<PlanteWithCategorie> list_Plantes = service.getPlantes();
+            return Gestion_exception.generateResponse("Liste des plantes récupérée avec succès", HttpStatus.OK, list_Plantes);
         } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la liste des plantes", HttpStatus.BAD_REQUEST, e.getMessage());
         }
-        return list_Plantes;
     }
 
-    @GetMapping("/getByCategorie")
-    public List<Plante> getPlantesByCategorie(@RequestParam String idcategorie) {
-        return service.getPlantesByCategorie(idcategorie);
+    @GetMapping("/categories/{id_categorie}")
+    public ResponseEntity<Object> getPlantesByCategorie(@PathVariable("id_categorie") String id_categorie) {
+        try {
+            List<PlanteWithCategorie> list_Plantes = service.getPlantesByCategorie(id_categorie);
+            return Gestion_exception.generateResponse("Liste des plantes by categorie récupérée avec succès", HttpStatus.OK, list_Plantes);
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la liste des plantes", HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
-    @GetMapping("/getforgames")
-    public List<Plante> getPlantesGames() {
-        return service.getPlantesGames();
+    @GetMapping("/games")
+    public ResponseEntity<Object> getPlantesGames() {
+        try {
+            List<PlanteWithCategorie> list_Plantes = service.getPlantesGames();
+            return Gestion_exception.generateResponse("Liste des plantes récupérée avec succès", HttpStatus.OK, list_Plantes);
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la liste des plantes", HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
-    @GetMapping("/getbyid")
-    public Plante getPlandeByid(@RequestParam int id){
-        return service.getPlandeByid(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getPlandeByid(@PathVariable("id") int id){
+        try {
+            return Gestion_exception.generateResponse("plante récupérée avec succès", HttpStatus.OK, service.getPlandeByid(id));
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la plante", HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
-    @PostMapping("/insert")
-    public void insertplante(@RequestParam int idcategorie,@RequestParam String nom,@RequestParam double prixachat,@RequestParam double prixvente){
-        service.insertplante(idcategorie, nom, prixachat,prixvente);
+    @PostMapping
+    public ResponseEntity<Object> insertplante(@RequestBody Plante plante) throws Exception{
+        if (plante == null) throw new Exception("plante null");
+        try {
+            return Gestion_exception.generateResponse("plante enregistrer avec succès", HttpStatus.OK, service.insertplante(plante.getId_categorie_culture(), plante.getNom_plante(), plante.getPrixachat(),plante.getPrixvente()));
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la plante", HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+        
     }
-
-    @PostMapping("/update/nom_plante")
-    public void updateNom_plante(@RequestParam int id,@RequestParam String nom)  {
-        service.updateNom_plante(id, nom);
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody Plante plante)  {
+        try {
+            if (plante != null) {
+                int id = plante.getId_plante();
+                service.updatePlaceingamemaker(id, plante.getPlaceingamemaker());
+                service.updateSpritePlante(id, plante.getSprite_plante());
+                service.updatePrix(id, plante.getPrixvente());
+                service.updateNom_plante(id, plante.getNom_plante());
+            }
+            return Gestion_exception.generateResponse("plante mise a jour avec succès", HttpStatus.OK, "valid");
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la mise a jour de la plante", HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+        
     }
-
-    @PostMapping("/update/prix")
-    public void updatePrix(@RequestParam int id,@RequestParam double prix)  {
-        service.updatePrix(id, prix);
-    }
-
-    @PostMapping("/update/placeingamemaker")
-    public void updatePlaceingamemaker(@RequestParam int id,@RequestParam int place)  {
-        service.updatePlaceingamemaker(id, place);
-    }
-    
-    @PostMapping("/update/spriteplante")
-    public void updateSpritePlante(@RequestParam int id,@RequestParam String sprite)  {
-        service.updateSpritePlante(id, sprite);
-    }
-
-    @PostMapping("/delete")
-    public void deleteplante(@RequestParam int id)throws Exception{
-        service.deleteplante(id);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> deleteplante(@RequestParam int id)throws Exception{
+        try {
+            return Gestion_exception.generateResponse("plante delete avec succès", HttpStatus.OK, service.deleteplante(id));
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la suppression de la plante", HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
 
