@@ -112,8 +112,9 @@ public class Proprietaire_controller {
             String idEnvoyeur = Integer.toString(new Token().ToToken(token).getUtilisateur());
             List<Messagerie> discussions = messagerieService.getDiscussions(idEnvoyeur, messagerie.getIdReceveur());
             List<Proprietaire> proprietaires = service.getProprietaires();
-            List<MessagerieProprietaire> list_discussions = new MessagerieProprietaire().joinMessagerieProprietaire(discussions, proprietaires);
-            return Gestion_exception.generateResponse("discussions",HttpStatus.OK ,list_discussions);
+            List<MessagerieProprietaire> list_discussions = new MessagerieProprietaire()
+                    .joinMessagerieProprietaire(discussions, proprietaires);
+            return Gestion_exception.generateResponse("discussions", HttpStatus.OK, list_discussions);
         } catch (Exception exception) {
             System.out.println("Erreur: " + exception.getMessage());
             exception.printStackTrace();
@@ -122,19 +123,20 @@ public class Proprietaire_controller {
     }
 
     @PostMapping("discussions/last/{id_receiver}")
-    public ResponseEntity<Object> getLastMessagesForReceiver(@PathVariable("id_receiver") String id_receiver) {
+    public ResponseEntity<Object> getLastMessagesForReceiver(@PathVariable("id_receiver") String id_receiver,
+            @RequestBody String token) {
         try {
-            List<Messagerie> discussions = messagerieService.getLastMessagesForReceiver(id_receiver);
+            String id_receiverToken = Integer.toString(new Token().ToToken(token).getUtilisateur());
+            List<Messagerie> discussions = messagerieService.getLastMessagesForReceiver(id_receiverToken);
             List<Proprietaire> proprietaires = service.getProprietaires();
-            List<MessagerieProprietaire> list_discussions = new MessagerieProprietaire().joinMessagerieProprietaire(discussions, proprietaires);
-            return Gestion_exception.generateResponse("discussions",HttpStatus.OK ,list_discussions);
+            List<MessagerieProprietaire> list_discussions = new MessagerieProprietaire()
+                    .joinMessagerieProprietaire(discussions, proprietaires);
+            return Gestion_exception.generateResponse("discussions", HttpStatus.OK, list_discussions);
         } catch (Exception exception) {
             System.out.println("Erreur: " + exception.getMessage());
             exception.printStackTrace();
-            return Gestion_exception.generateResponse("last discussions error",HttpStatus.OK ,exception.getMessage());
+            return Gestion_exception.generateResponse("last discussions error", HttpStatus.OK, exception.getMessage());
         }
     }
-    
-   
 
 }

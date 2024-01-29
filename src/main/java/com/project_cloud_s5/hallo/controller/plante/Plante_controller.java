@@ -51,9 +51,9 @@ public class Plante_controller {
     }
 
     @GetMapping("/getbyid")
-    public Plante getPlandeByid(@RequestParam int id, @RequestBody String token) {
-        int idUser = new Token().ToToken(token).getUtilisateur();
-        return service.getPlandeByid(idUser);
+    public Plante getPlandeByid(@RequestParam int id) {
+
+        return service.getPlandeByid(id);
     }
 
     @PostMapping("/insert")
@@ -64,15 +64,15 @@ public class Plante_controller {
     }
 
     @PostMapping("/update/nom_plante")
-    public void updateNom_plante(@RequestParam int id, @RequestParam String nom, @RequestBody String token) {
-        int idUser = new Token().ToToken(token).getUtilisateur();
-        service.updateNom_plante(idUser, nom);
+    public void updateNom_plante(@RequestParam int id, @RequestParam String nom) {
+        // int idUser = new Token().ToToken(token).getUtilisateur();
+        service.updateNom_plante(id, nom);
     }
 
     @PostMapping("/update/prix")
-    public void updatePrix(@RequestParam int id, @RequestParam double prix, @RequestBody String token) {
-        int idUser = new Token().ToToken(token).getUtilisateur();
-        service.updatePrix(idUser, prix);
+    public void updatePrix(@RequestParam int id, @RequestParam double prix) {
+        // int idUser = new Token().ToToken(token).getUtilisateur();
+        service.updatePrix(id, prix);
     }
 
     @PostMapping("/update/placeingamemaker")

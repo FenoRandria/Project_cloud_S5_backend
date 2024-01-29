@@ -88,14 +88,19 @@ public class Token {
 
     public Token ToToken(String tok) {
         Token token = new Token();
-        Claims cl = Jwts.parser().setSigningKey(Token.keyToken)
-                .parseClaimsJws(tok).getBody();
-        int idutilisateur = Integer.parseInt(cl.get("idutilisateur").toString());
-        // int idutilisateur = Integer.parseInt(cl.get("idutilisateur").toString());
-        String nom = cl.get("nom").toString();
-        token.setUtilisateur(idutilisateur);
-        token.setToken(tok);
-        return token;
+        try {
+            Claims cl = Jwts.parser().setSigningKey(Token.keyToken)
+                    .parseClaimsJws(tok).getBody();
+            int idutilisateur = Integer.parseInt(cl.get("idutilisateur").toString());
+            // int idutilisateur = Integer.parseInt(cl.get("idutilisateur").toString());
+            String nom = cl.get("nom").toString();
+            token.setUtilisateur(idutilisateur);
+            token.setToken(tok);
+            return token;
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 
 }
