@@ -30,7 +30,6 @@ public class Messagerie_serve {
             throw e;
         }
     }
-
     public List<Messagerie> getDiscussions(String idEnvoyeur, String idReceveur) {
         this.setStatus(idReceveur, idEnvoyeur, 20, 1);
         Criteria criteria = new Criteria().orOperator(
@@ -40,14 +39,12 @@ public class Messagerie_serve {
         Query query = new Query(criteria).with(Sort.by(Sort.Direction.ASC, "dateHeureEnvoie"));
         return mongoTemplate.find(query, Messagerie.class);
     }
-
     public void setStatus(String idEnvoyeur, String idReceveur, int status, int avant) {
         Query query = new Query(Criteria.where("idEnvoyeur").is(idEnvoyeur).and("idReceveur").is(idReceveur).and("status").is(avant));
         Update update = new Update().set("status", status);
         mongoTemplate.updateFirst(query, update, Messagerie.class);
         System.out.println("Set status teto");
     }
-
     public List<Messagerie> getLastMessagesForReceiver(String receiverId) {
         org.springframework.data.mongodb.core.aggregation.Aggregation aggregation = Aggregation.newAggregation(
             Aggregation.match(Criteria.where("idReceveur").is(receiverId)),
