@@ -1,5 +1,6 @@
 package com.project_cloud_s5.hallo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,9 +17,18 @@ public class BeneficeService {
         this.dao = dao;
     }
 
-    public List<Benefice> getBenefice(int mois, int anne) {
+    public List getBenefice(int mois, int anne) {
+        List list = new ArrayList<>();
         try {
-            return this.dao.getBenefice(anne, mois);
+            List<Benefice> ls = this.dao.getBenefice(anne, mois);
+            double[] data = new double[12];
+            for(int i = 0;i<12;i++){
+                data[i] = ls.get(i).getBenefice();
+            }
+            list.add(this.dao.getBenefice(anne, mois));
+            list.add(this.dao.getAnne_exist());
+            list.add(data);
+            return list;       
         } catch (Exception e) {
             throw e;
         }

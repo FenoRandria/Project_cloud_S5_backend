@@ -25,4 +25,13 @@ public class BeneficeDao {
         }
     }
 
+    public List<String> getAnne_exist() {
+        String sql = "select * from anne_exist";
+        try {
+            return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("anne"));
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 }

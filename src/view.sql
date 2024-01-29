@@ -224,3 +224,12 @@ VALUES
 (10, 10, '2023-03-22 20:00:00');
 
 
+
+
+create or replace view v_statistique_globale as 
+select total_plantes,chiffre_affaire,plante_vendu,plante_recolters from
+(select count(*) as total_plantes from plante) as a,
+(select sum(prixvente) as chiffre_affaire from plante) as b,
+(select count(*) as plante_vendu from vente) as c,
+(select count(*) as plante_recolters from recolte) as d;
+

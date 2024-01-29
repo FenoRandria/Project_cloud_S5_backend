@@ -21,7 +21,6 @@ com\project_cloud_s5\hallo\service\Parcelle_serve.class
 com\project_cloud_s5\hallo\repository\MessagerieRepository.class
 com\project_cloud_s5\hallo\model\proprietaire\MessagerieProprietaire.class
 com\project_cloud_s5\hallo\service\Messagerie_serve.class
-com\project_cloud_s5\hallo\controller\State\StateController.class
 com\project_cloud_s5\hallo\dao\Proprietaire_dao$1.class
 com\project_cloud_s5\hallo\HalloApplication.class
 com\project_cloud_s5\hallo\controller\terrain\Terrain_controller.class

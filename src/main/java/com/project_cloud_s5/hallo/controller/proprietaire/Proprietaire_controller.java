@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @CrossOrigin
@@ -91,9 +92,9 @@ public class Proprietaire_controller {
     // --------------------------------------------------------------------////STRING
     // TOKEN JSON
     @PostMapping("messagerie")
-    public ResponseEntity<Object> nouveauMessage(@RequestBody Messagerie messagerie, @RequestBody String token) {
+    public ResponseEntity<Object> nouveauMessage(@RequestBody Messagerie messagerie, @RequestHeader("Authorization") String authorizationHeader) {
         try {
-
+            String token = authorizationHeader.replace("Bearer ", "");
             String idEnvoyeur = Integer.toString(new Token().ToToken(token).getUtilisateur());
             messagerie.setIdEnvoyeur(idEnvoyeur);
             messagerieService.nouveauMessage(messagerie);
@@ -106,9 +107,24 @@ public class Proprietaire_controller {
         }
     }
 
-    @PostMapping("discussions")
-    public ResponseEntity<Object> discussions(@RequestBody Messagerie messagerie, @RequestBody String token) {
+    @PostMapping("auth")
+    public ResponseEntity<Object> auth(@RequestHeader("Authorization") String authorizationHeader) {
         try {
+            String token = authorizationHeader.replace("Bearer ", "");
+            Integer.toString(new Token().ToToken(token).getUtilisateur());
+            return Gestion_exception.generateResponse("Message invalid", HttpStatus.OK,"token valid");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return Gestion_exception.generateResponse("Message invalid", HttpStatus.INTERNAL_SERVER_ERROR,
+                    exception.getMessage());
+        }
+    }
+
+
+    @PostMapping("discussions")
+    public ResponseEntity<Object> discussions(@RequestBody Messagerie messagerie, @RequestHeader("Authorization") String authorizationHeader ) {
+        try {
+            String token = authorizationHeader.replace("Bearer ", "");
             String idEnvoyeur = Integer.toString(new Token().ToToken(token).getUtilisateur());
             List<Messagerie> discussions = messagerieService.getDiscussions(idEnvoyeur, messagerie.getIdReceveur());
             List<Proprietaire> proprietaires = service.getProprietaires();
@@ -123,9 +139,9 @@ public class Proprietaire_controller {
     }
 
     @PostMapping("discussions/last/{id_receiver}")
-    public ResponseEntity<Object> getLastMessagesForReceiver(@PathVariable("id_receiver") String id_receiver,
-            @RequestBody String token) {
+    public ResponseEntity<Object> getLastMessagesForReceiver(@PathVariable("id_receiver") String id_receiver, @RequestHeader("Authorization") String authorizationHeader) {
         try {
+            String token = authorizationHeader.replace("Bearer ", "");
             String id_receiverToken = Integer.toString(new Token().ToToken(token).getUtilisateur());
             List<Messagerie> discussions = messagerieService.getLastMessagesForReceiver(id_receiverToken);
             List<Proprietaire> proprietaires = service.getProprietaires();

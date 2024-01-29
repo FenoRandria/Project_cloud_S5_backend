@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.project_cloud_s5.hallo.model.State.V_planteUtilise;
+import com.project_cloud_s5.hallo.model.State.V_statistique_globale;
 import com.project_cloud_s5.hallo.model.categorie.Categorie_culture;
 
 @Repository
@@ -18,7 +19,7 @@ public class V_PlanteUtiliseDao {
     private JdbcTemplate jdbcTemplate;
 
     public List<V_planteUtilise> getPlanteutilise() {
-        String sql = "select * from V_planteUtilise ";
+        String sql = "select * from V_planteUtilise";
         try {
             return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(V_planteUtilise.class));
         } catch (Exception e) {
@@ -30,6 +31,15 @@ public class V_PlanteUtiliseDao {
         String sql = "select * from V_planteUtilise limit " + limit;
         try {
             return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(V_planteUtilise.class));
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public List<V_statistique_globale> getV_statistique_globale() {
+        String sql = "select * from v_statistique_globale";
+        try {
+            return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(V_statistique_globale.class));
         } catch (Exception e) {
             throw e;
         }

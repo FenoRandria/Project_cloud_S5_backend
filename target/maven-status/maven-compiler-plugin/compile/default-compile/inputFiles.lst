@@ -33,6 +33,7 @@ D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Categorie_culture_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\proprietaire\Proprietaire_controller.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\dao\Parcelle_dao.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\State\V_statistique_globale.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Terrain_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\exception\Gestion_exception.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\V_PlanteVenteService.java
