@@ -1,4 +1,5 @@
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\parcelle\Parcelle_controller.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\service\Terrain_parcelle_culture_serve.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\config\CorsConfig.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\config\FireBaseConfig.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\HalloApplication.java
@@ -28,3 +29,4 @@ D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\dao\Proprietaire_dao.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\controller\plante\Plante_controller.java
 D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\dto\ProprietaireDTO.java
+D:\techno_dev\Project_cloud_S5_backend\src\main\java\com\project_cloud_s5\hallo\model\plante\PlanteWithCategorie.java

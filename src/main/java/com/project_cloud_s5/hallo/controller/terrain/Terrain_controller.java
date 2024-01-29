@@ -5,6 +5,7 @@ import com.project_cloud_s5.hallo.controller.exception.Gestion_exception;
 import com.project_cloud_s5.hallo.model.categorie.Categorie_culture;
 import com.project_cloud_s5.hallo.model.dto.TerrainDTO;
 import com.project_cloud_s5.hallo.model.terrain.Terrain;
+import com.project_cloud_s5.hallo.service.Terrain_parcelle_culture_serve;
 import com.project_cloud_s5.hallo.service.Terrain_serve;
 import java.util.List;
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("api/terrains")
@@ -24,9 +27,11 @@ public class Terrain_controller
 {
     private static final Logger logger = LoggerFactory.getLogger(Terrain_controller.class);
     private final Terrain_serve service;
-    public Terrain_controller(Terrain_serve servivce)
+    private final Terrain_parcelle_culture_serve jointure;
+    public Terrain_controller(Terrain_serve servivce,Terrain_parcelle_culture_serve jointure)
     {
         this.service = servivce;
+        this.jointure = jointure;
     }
     @GetMapping
     public ResponseEntity<Object> get_all_Terrains() {
@@ -151,6 +156,19 @@ public class Terrain_controller
             return Gestion_exception.generateResponse("Erreur survenue lors de l'enregistrement photo", HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
         }
     }
+
+    @GetMapping("/parcelles/categorie-cultures/plantes")
+    public ResponseEntity<Object> getListTerrainParcelleCulture() {
+        try {
+            List list =  jointure.getTerrain_parcelle_culture();
+            logger.info("Liste jointure avec succès : {}", list);
+            return Gestion_exception.generateResponse("Liste", HttpStatus.OK, list);
+        } catch (Exception e) {
+            logger.error("Une erreur s'est produite lors de la récupération des terrains : {}", e.getMessage());
+            return Gestion_exception.generateResponse("Erreur survenue lors de la récupération des terrains", HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
+        }
+    }
+    
 
 
 }

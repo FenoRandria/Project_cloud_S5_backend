@@ -8,20 +8,21 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.project_cloud_s5.hallo.model.plante.Plante;
+import com.project_cloud_s5.hallo.model.plante.PlanteWithCategorie;
 
 @Repository
 public class Plante_dao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Plante> getPlantes() {
-        String sql = "select * from Plante";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Plante.class));
+    public List<PlanteWithCategorie> getPlantes() {
+        String sql = "select p.id_plante,p.nom_plante,p.prixachat,p.prixvente,p.sprite_plante,p.placeingamemaker,c.id_categorie_culture,c.nomcategorie,c.corbeille from Plante p join categorie_culture c on p.id_categorie_culture = c.id_categorie_culture where c.corbeille = 0";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(PlanteWithCategorie.class));
     }
 
-    public List<Plante> getPlantesGames() {
-        String sql = "select * from Plante where sprite_plante not null and placeingamemaker not null";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Plante.class));
+    public List<PlanteWithCategorie> getPlantesGames() {
+        String sql = "select p.id_plante,p.nom_plante,p.prixachat,p.prixvente,p.sprite_plante,p.placeingamemaker,c.id_categorie_culture,c.nomcategorie,c.corbeille from Plante p join categorie_culture c on p.id_categorie_culture = c.id_categorie_culture where c.corbeille = 0 and sprite_plante is not null and placeingamemaker is not null";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(PlanteWithCategorie.class));
     }
 
     public Plante getPlanteById(int idplante) {
@@ -29,55 +30,46 @@ public class Plante_dao {
         return jdbcTemplate.queryForObject(sql,Plante.class);
     }
 
-    public List<Plante> getPlantesByIdCategorie(String idculture) {
-        String sql = "select * from Plante where id_categorie_culture"+idculture;
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Plante.class));
+    public List<PlanteWithCategorie> getPlantesByIdCategorie(String idculture) 
+    {
+        String sql = "select p.id_plante,p.nom_plante,p.prixachat,p.prixvente,p.sprite_plante,p.placeingamemaker,c.id_categorie_culture,c.nomcategorie,c.corbeille from Plante p join categorie_culture c on p.id_categorie_culture = c.id_categorie_culture where c.corbeille = 0 and p.id_categorie_culture = ?";
+        return jdbcTemplate.query(sql,new Object[]{Integer.parseInt(idculture)},new BeanPropertyRowMapper<>(PlanteWithCategorie.class));
     }
 
-    public void insertplante(int idcat,String nom,double prixachat,double prixvente){
+    public int insertplante(int idcat,String nom,double prixachat,double prixvente){
         String sql = "INSERT INTO Plante (id_categorie,nom_plante,prixachat,prixvente) values (?,?,?,?,?)";
-        int rowsAffected = jdbcTemplate.update(sql, idcat,nom,prixachat,prixvente);
-        // return jdbcTemplate.query(sql, );
+        return jdbcTemplate.update(sql, idcat,nom,prixachat,prixvente);
     }
 
-    public void updateNom_plante(int idplante,String nom)  {
-        
+    public int updateNom_plante(int idplante,String nom)  {
         String sql = "update plante set nom_plante=? where id_plante=?";
-
-        int rowsAffected = jdbcTemplate.update(sql,nom,idplante);
-
-    }
-
-    public void updatePrix(int idplante,double prix)  {
-        
-        String sql = "update plante set prix=? where id_plante=?";
-
-        int rowsAffected = jdbcTemplate.update(sql,prix,idplante);
+        return jdbcTemplate.update(sql,nom,idplante);
 
     }
 
-    public void updateSpritePlante(int idplante,String npm)  {
+    public int updatePrix(int idplante,double prixvente)  {
         
+        String sql = "update plante set prixvente=? where id_plante=?";
+        return jdbcTemplate.update(sql,prixvente,idplante);
+
+    }
+
+    public int updateSpritePlante(int idplante,String npm)  {
         String sql = "update plante set sprite_plante=? where id_plante=?";
-
-        int rowsAffected = jdbcTemplate.update(sql,npm,idplante);
+        return jdbcTemplate.update(sql,npm,idplante);
 
     }
 
     //index du placement de la terre de cultivation du sprite dans gamemaker
-    public void updatePlaceingamemaker(int idplante,int plc)  {
-        
+    public int updatePlaceingamemaker(int idplante,int plc)  {
         String sql = "update plante set placeingamemaker=? where id_plante=?";
-
-        int rowsAffected = jdbcTemplate.update(sql,plc,idplante);
+        return jdbcTemplate.update(sql,plc,idplante);
 
     }
 
-    public void deleteplante(int idplante)throws Exception{
-        
+    public int deleteplante(int idplante)throws Exception{
         String sql = "delete from plante where id_plante=?";
-
-        int rowsAffected = jdbcTemplate.update(sql,idplante);
+        return jdbcTemplate.update(sql,idplante);
 
     }
 

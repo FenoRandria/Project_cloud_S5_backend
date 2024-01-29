@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.project_cloud_s5.hallo.dao.Plante_dao;
 import com.project_cloud_s5.hallo.model.plante.Plante;
+import com.project_cloud_s5.hallo.model.plante.PlanteWithCategorie;
 
 @Service
 public class Plante_serve {
@@ -16,35 +17,35 @@ public class Plante_serve {
     {
         this.dao = dao;
     }   
-    public List<Plante> getPlantes() {
+    public List<PlanteWithCategorie> getPlantes() {
         return dao.getPlantes();
     }
-    public List<Plante> getPlantesByCategorie(String idcategorie) {
+    public List<PlanteWithCategorie> getPlantesByCategorie(String idcategorie) {
         return dao.getPlantesByIdCategorie(idcategorie);
     }
-    public List<Plante> getPlantesGames() {
+    public List<PlanteWithCategorie> getPlantesGames() {
         return dao.getPlantesGames();
     }
     public Plante getPlandeByid(int id){
         return dao.getPlanteById(id);
     }
-    public void insertplante(int idcat,String nom,double prixachat,double prixvente){
-        dao.insertplante(idcat, nom, prixachat,prixvente);
+    public int insertplante(int idcat,String nom,double prixachat,double prixvente){
+       return dao.insertplante(idcat, nom, prixachat,prixvente);
     }
-    public void updateNom_plante(int idplante,String nom)  {
-        dao.updateNom_plante(idplante, nom);
+    public int updateNom_plante(int idplante,String nom)  {
+        return dao.updateNom_plante(idplante, nom);
     }
-    public void updatePrix(int idplante,double prix)  {
-        dao.updatePrix(idplante, prix);
+    public int updatePrix(int idplante,double prix)  {
+        return dao.updatePrix(idplante, prix);
     }
-    public void updatePlaceingamemaker(int idplante,int plc)  {
-        dao.updatePlaceingamemaker(idplante,plc);
+    public int updatePlaceingamemaker(int idplante,int plc)  {
+        return dao.updatePlaceingamemaker(idplante,plc);
     }
-    public void updateSpritePlante(int idplante,String npm)  {
-        dao.updateSpritePlante(idplante, npm);
+    public int updateSpritePlante(int idplante,String npm)  {
+        return dao.updateSpritePlante(idplante, npm);
     }
-    public void deleteplante(int idplante)throws Exception{
-        dao.deleteplante(idplante);
+    public int deleteplante(int idplante)throws Exception{
+        return dao.deleteplante(idplante);
     }
 
 }
