@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project_cloud_s5.hallo.controller.exception.Gestion_exception;
 import com.project_cloud_s5.hallo.model.Token.Token;
+import com.project_cloud_s5.hallo.model.categorie.Categorie_culture;
 import com.project_cloud_s5.hallo.model.dto.ParcelleDTO;
 import com.project_cloud_s5.hallo.model.parcelle.Parcelle;
 import com.project_cloud_s5.hallo.service.Parcelle_serve;
@@ -58,8 +59,32 @@ public class Parcelle_controller {
     public ResponseEntity<Object> getParcelleById(@PathVariable("id") String id) {
         try {
             // int idUser = new Token().ToToken(token).getUtilisateur();
+            Integer.parseInt(id);
             Parcelle parcelle = service.getParcelleById(id);
             return Gestion_exception.generateResponse("Parcelle récupérée avec succès", HttpStatus.OK, parcelle);
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la parcelle par ID",
+                    HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<Object> getParcelleCategorieCultureById(@PathVariable("id") String id)throws Exception {
+        try {
+            List<Categorie_culture> list = service.getParcelleCategorieCultureById(id);
+            return Gestion_exception.generateResponse("Parcelle categorie culture récupérée avec succès", HttpStatus.OK, list);
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la parcelle et list categorie par ID",
+                    HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+    
+
+    @GetMapping("/terrains/{idTerrain}")
+    public ResponseEntity<Object> getParcelleByIdTerrain(@PathVariable("idTerrain") String id) {
+        try {
+            // int idUser = new Token().ToToken(token).getUtilisateur();
+            List<Parcelle> parcelles = service.getParcelleByIdTerrain(id);
+            return Gestion_exception.generateResponse("Parcelle récupérée avec succès", HttpStatus.OK, parcelles);
         } catch (Exception e) {
             return Gestion_exception.generateResponse("Erreur lors de la récupération de la parcelle par ID",
                     HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());

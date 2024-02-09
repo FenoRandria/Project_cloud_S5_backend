@@ -52,6 +52,21 @@ public class Proprietaire_controller {
         }
     }
 
+    @GetMapping("/token")
+    public ResponseEntity<Object> getProprietaireId(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            String token = authorizationHeader.replace("Bearer ", "");
+            String idEnvoyeur = Integer.toString(new Token().ToToken(token).getUtilisateur());
+            Proprietaire list_proprietaires = service.getProprietaires(idEnvoyeur);
+            logger.info("Proprietaire récupérée avec succès : {}", list_proprietaires);
+            return Gestion_exception.generateResponse("proprietaire", HttpStatus.OK, list_proprietaires);
+        } catch (Exception e) {
+            logger.error("Une erreur s'est produite lors de la récupération des propriétaires : {}", e.getMessage());
+            return Gestion_exception.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Erreur survenue lors de la récupération des propriétaires");
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Object> seLogin(@RequestBody ProprietaireDTO proprietaire) throws Exception {
         try {
@@ -111,8 +126,8 @@ public class Proprietaire_controller {
     public ResponseEntity<Object> auth(@RequestHeader("Authorization") String authorizationHeader) {
         try {
             String token = authorizationHeader.replace("Bearer ", "");
-            Integer.toString(new Token().ToToken(token).getUtilisateur());
-            return Gestion_exception.generateResponse("Message invalid", HttpStatus.OK,"token valid");
+            System.out.println("---------------------------------------------- "+Integer.toString(new Token().ToToken(token).getUtilisateur()));
+            return Gestion_exception.generateResponse("Token valid", HttpStatus.OK,Integer.toString(new Token().ToToken(token).getUtilisateur()));
         } catch (Exception exception) {
             exception.printStackTrace();
             return Gestion_exception.generateResponse("Message invalid", HttpStatus.INTERNAL_SERVER_ERROR,
@@ -126,6 +141,7 @@ public class Proprietaire_controller {
         try {
             String token = authorizationHeader.replace("Bearer ", "");
             String idEnvoyeur = Integer.toString(new Token().ToToken(token).getUtilisateur());
+            System.err.println(messagerie.getIdReceveur());
             List<Messagerie> discussions = messagerieService.getDiscussions(idEnvoyeur, messagerie.getIdReceveur());
             List<Proprietaire> proprietaires = service.getProprietaires();
             List<MessagerieProprietaire> list_discussions = new MessagerieProprietaire()

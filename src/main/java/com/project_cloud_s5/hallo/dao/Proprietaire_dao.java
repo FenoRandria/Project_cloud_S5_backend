@@ -20,6 +20,12 @@ public class Proprietaire_dao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Proprietaire.class));
     }
 
+    public Proprietaire getProprietaires(String id) {
+        String sql = "select * from proprietaire where corbeille != 1 and id = ?";
+        System.out.println(sql+"-"+id);
+        return jdbcTemplate.query(sql, new Object[]{Integer.parseInt(id)}, new BeanPropertyRowMapper<>(Proprietaire.class)).get(0);
+    }
+
     public Proprietaire seLogin(String mail, String mdp) throws Exception {
         if (mail == null || mail.isEmpty() || !mail.contains("@")) {
             throw new Exception("Invalid email");

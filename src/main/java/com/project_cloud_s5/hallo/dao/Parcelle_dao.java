@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.project_cloud_s5.hallo.model.categorie.Categorie_culture;
 import com.project_cloud_s5.hallo.model.parcelle.Parcelle;
 
 @Repository
@@ -20,12 +22,21 @@ public class Parcelle_dao {
 
     public Parcelle getParcelleById(String id) {
         String sql = "SELECT * FROM parcelle WHERE id_parcelle = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{Integer.parseInt(id)}, Parcelle.class);
+        System.out.println("id ----- "+id);
+        System.out.println(sql);
+        return jdbcTemplate.query(sql, new Object[]{Integer.parseInt(id)}, new BeanPropertyRowMapper<>(Parcelle.class)).get(0);
+    }
+
+    public List<Categorie_culture> getParcelleCategorieCultureById(String id) {
+        String sql = "SELECT cp.id_parcelle,cc.id_categorie_culture,cc.nomcategorie FROM categories_parcelle cp,categorie_culture cc where cp.id_categorie_culture = cc.id_categorie_culture and cc.corbeille =0 and cp.corbeille =0 and cp.id_parcelle = ?";
+        System.out.println(sql);
+        return jdbcTemplate.query(sql, new Object[]{Integer.parseInt(id)}, new BeanPropertyRowMapper<>(Categorie_culture.class));
     }
 
     public List<Parcelle> getByTerrain(String idTerrain) {
         String sql = "SELECT * FROM parcelle WHERE id_terrain = ?";
-        return jdbcTemplate.query(sql, new Object[]{idTerrain}, new BeanPropertyRowMapper<>(Parcelle.class));
+        System.out.println(sql);
+        return jdbcTemplate.query(sql, new Object[]{Integer.parseInt(idTerrain)}, new BeanPropertyRowMapper<>(Parcelle.class));
     }
 
     public int insertParcelle(int idTerrain, double longueur, double largeur, double rendement) throws Exception {

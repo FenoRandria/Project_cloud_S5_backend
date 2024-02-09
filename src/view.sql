@@ -193,17 +193,17 @@ insert into recolte (id_parcelle, id_plante, dateaction) values
 (11, 19, current_timestamp),
 (12, 20, current_timestamp);
 
-insert into vente (id_parcelle, id_plante, dateaction) values
-(11, 11, current_timestamp),
-(2, 12, current_timestamp),
-(12, 13, current_timestamp),
-(4, 14, current_timestamp),
-(5, 15, current_timestamp),
-(6, 16, current_timestamp),
-(7, 17, current_timestamp),
-(8, 18, current_timestamp),
-(9, 19, current_timestamp),
-(10, 20, current_timestamp);
+insert into vente (id_recolte, id_plante, dateaction) values
+(1, 4, current_timestamp),
+(2, 5, current_timestamp),
+(3, 2, current_timestamp),
+(1, 4, current_timestamp),
+(2, 7, current_timestamp),
+(3, 3, current_timestamp),
+(3, 5, current_timestamp),
+(2, 8, current_timestamp),
+(1, 4, current_timestamp),
+(1, 7, current_timestamp);
 
 -- Sample data for 2022
 INSERT INTO vente (id_parcelle, id_plante, dateaction)
@@ -233,3 +233,14 @@ select total_plantes,chiffre_affaire,plante_vendu,plante_recolters from
 (select count(*) as plante_vendu from vente) as c,
 (select count(*) as plante_recolters from recolte) as d;
 
+
+
+SELECT 
+    cp.id_parcelle,
+    cc.id_categorie_culture,
+    cc.nomcategorie 
+FROM categories_parcelle cp,categorie_culture cc ,terrain t
+where cp.id_categorie_culture = cc.id_categorie_culture and cp.id
+and cc.corbeille =0 
+and cp.corbeille =0
+and cp.corbeille =0

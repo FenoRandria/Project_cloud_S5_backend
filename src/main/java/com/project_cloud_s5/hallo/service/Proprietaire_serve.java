@@ -23,6 +23,10 @@ public class Proprietaire_serve {
         return dao.getProprietaires();
     }
 
+    public Proprietaire getProprietaires(String id) {
+        return dao.getProprietaires(id);
+    }
+
     public String seLogin(String mail, String mdp) throws Exception {
         Token token = new Token();
         try {
