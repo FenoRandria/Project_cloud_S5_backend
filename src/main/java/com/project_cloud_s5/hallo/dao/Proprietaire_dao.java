@@ -32,7 +32,7 @@ public class Proprietaire_dao {
         }
         String sql = "SELECT * FROM proprietaire WHERE mail = ?";
         try {
-            Proprietaire proprietaire = jdbcTemplate.queryForObject(sql, new Object[]{mail}, new BeanPropertyRowMapper<>(Proprietaire.class));
+            Proprietaire proprietaire = jdbcTemplate.query(sql, new Object[]{mail}, new BeanPropertyRowMapper<>(Proprietaire.class)).get(0);
 
             if (proprietaire==null || mail.compareTo(proprietaire.getMail())!=0) throw new Exception("Compte inexist sur mail: "+mail);
             if (proprietaire != null && mdp.equals(proprietaire.getMdp())) 
