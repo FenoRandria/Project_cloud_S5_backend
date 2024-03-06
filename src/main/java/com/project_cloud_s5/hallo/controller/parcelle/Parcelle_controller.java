@@ -84,7 +84,7 @@ public class Parcelle_controller {
             List<Categorie_culture> list = service.getParcelleTerrainCategorie();
             return Gestion_exception.generateResponse("Parcelle categorie culture récupérée avec succès", HttpStatus.OK, list);
         } catch (Exception e) {
-            return Gestion_exception.generateResponse("Erreur lors de la récupération de la parcelle et list categorie par ID",
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la parcelle et list categorie et terrain",
                     HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
