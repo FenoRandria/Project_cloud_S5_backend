@@ -103,3 +103,30 @@ create table vente(
 );
 
 create table historique
+
+
+
+
+
+
+
+
+
+SELECT 
+    p.id_terrain,
+    DISTINCT ON (cp.id_parcelle) id_parcelle,
+    cc.id_categorie_culture,
+    cc.nomcategorie 
+FROM 
+    parcelle p,
+    categories_parcelle cp,
+    categorie_culture cc 
+where 
+    cp.id_categorie_culture = cc.id_categorie_culture 
+    and p.id_parcelle = cp.id_parcelle 
+    and cc.corbeille =0 
+    and cp.corbeille =0 
+    and cp.id_parcelle = 2 
+;
+
+SELECT  DISTINCT ON (cp.id_parcelle) cp.id_parcelle, p.id_terrain, cc.id_categorie_culture, cc.nomcategorie FROM parcelle p JOIN categories_parcelle cp ON p.id_parcelle = cp.id_parcelle JOIN categorie_culture cc ON cp.id_categorie_culture = cc.id_categorie_culture WHERE cc.corbeille = 0 AND cp.corbeille = 0;

@@ -16,7 +16,8 @@ public class BeneficeDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Benefice> getBenefice(int anne, int mois) {
+    public List<Benefice> getBenefice(int anne, int mois) 
+    {
         String sql = "select * from benefice where anne = " + anne;
         try {
             return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Benefice.class));
@@ -25,7 +26,8 @@ public class BeneficeDao {
         }
     }
 
-    public List<String> getAnne_exist() {
+    public List<String> getAnne_exist() 
+    {
         String sql = "select * from anne_exist";
         try {
             return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("anne"));

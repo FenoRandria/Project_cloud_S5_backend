@@ -78,4 +78,15 @@ public class Parcelle_serve {
             throw new Exception("Erreur lors de la recuperation list categories cultures dans parcelle", e);
         }
     }
+
+    public List<Categorie_culture> getParcelleTerrainCategorie() throws Exception {
+        try {
+            return parcelleDao.getParcelleTerrainCategorie();
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw new Exception("Erreur lors de la recuperation list categories cultures dans parcelle et terrain", e);
+        }
+    }
+
+    
 }

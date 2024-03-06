@@ -77,6 +77,18 @@ public class Parcelle_controller {
                     HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    @GetMapping("/categories/terrain")
+    public ResponseEntity<Object> getParcelleTerrainCategorie()throws Exception {
+        try {
+            List<Categorie_culture> list = service.getParcelleTerrainCategorie();
+            return Gestion_exception.generateResponse("Parcelle categorie culture récupérée avec succès", HttpStatus.OK, list);
+        } catch (Exception e) {
+            return Gestion_exception.generateResponse("Erreur lors de la récupération de la parcelle et list categorie par ID",
+                    HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+    
     
 
     @GetMapping("/terrains/{idTerrain}")
