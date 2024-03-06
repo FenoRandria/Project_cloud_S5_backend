@@ -34,7 +34,7 @@ public class Parcelle_dao {
     }
 
     public List<Categorie_culture> getParcelleTerrainCategorie() {
-        String sql = "SELECT  DISTINCT ON (cp.id_parcelle) cp.id_parcelle as id_categorie_culture, cc.nomcategorie, p.id_terrain as corbeille FROM parcelle p JOIN categories_parcelle cp ON p.id_parcelle = cp.id_parcelle JOIN categorie_culture cc ON cp.id_categorie_culture = cc.id_categorie_culture WHERE cc.corbeille = 0 AND cp.corbeille = 0";
+        String sql = "SELECT  DISTINCT ON (cp.id_parcelle) cp.id_parcelle as id_categorie_culture, cc.nomcategorie, p.id_terrain as corbeille FROM parcelle p JOIN categories_parcelle cp ON p.id_parcelle = cp.id_parcelle JOIN categorie_culture cc ON cp.id_categories_parcelle = cc.id_categorie_culture WHERE cc.corbeille = 0 AND cp.corbeille = 0";
         System.out.println(sql);
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Categorie_culture.class));
     }
